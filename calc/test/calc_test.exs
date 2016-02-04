@@ -16,7 +16,16 @@ defmodule CALCTest do
   end
 
   test "performs simple calculations" do
-  		assert { :ok, 4 } = CALC.interact("how much is 2+2")
-      assert { :ok, 3 } = CALC.interact("how much is 9 / 3")
+  		assert { :ok, 4.0 } = CALC.interact("how much is 2+2")
+      assert { :ok, 3.0 } = CALC.interact("how much is 9 / 3")
+  end
+
+  test "it should nicely handle improper equations" do
+    assert { :ok, "Naah, something is wrong with your equation, man." } = CALC.interact("how much is 3/0")
+  end
+
+  @tag :skip
+  test "performs a little more complex expressions" do
+    assert { :ok, 1.38 } = CALC.interact("how much is ( 102 * 19% ) % 6")
   end
 end
