@@ -4,6 +4,7 @@ defmodule Bot do
   def start(_type, _args) do
     IO.puts System.get_env("SLACK_TOKEN")
     Bot.start_link(System.get_env("SLACK_TOKEN"), [])
+    :timer.sleep(:infinity)
   end
 
   def handle_connect(slack, state) do
