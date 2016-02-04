@@ -1,6 +1,11 @@
 defmodule Bot do
   use Slack
 
+  def start(_type, _args) do
+    Bot.start_link(System.get_env("SLACK_TOKEN"), [])
+    :timer.sleep(:infinity)
+  end
+
   def handle_connect(slack, state) do
     IO.puts "Connected as #{slack.me.name}"
     {:ok, state}
