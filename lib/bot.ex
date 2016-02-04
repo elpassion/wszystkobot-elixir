@@ -4,7 +4,6 @@ defmodule Bot do
   def start(_type, _args) do
     IO.puts System.get_env("SLACK_TOKEN")
     Bot.start_link(System.get_env("SLACK_TOKEN"), [])
-    :timer.sleep(:infinity)
   end
 
   def handle_connect(slack, state) do
@@ -15,6 +14,10 @@ defmodule Bot do
   def handle_message(message = %{type: "message"}, slack, state) do
     message_to_send = "Received #{length(state)} messages so far!"
     send_message(message_to_send, message.channel, slack)
+
+    if HubReporter.canHandleMessage(message.text) do
+      send_message(HubReporter.handleMessage(message.text), message.channel, slack)
+    end
 
     {:ok, state ++ [message.text]}
   end
