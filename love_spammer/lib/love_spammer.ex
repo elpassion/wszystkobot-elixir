@@ -1,0 +1,2 @@
+defmodule LoveSpammer do
+end
