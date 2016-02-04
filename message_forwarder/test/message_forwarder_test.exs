@@ -1,16 +1,16 @@
-defmodule MFTest do
+defmodule MessageForwarderTest do
   use ExUnit.Case
-  doctest MF
+  doctest MessageForwarder
 
   test "handle no input" do
-    assert MF.handle_input() == {:error, "No message received!"}
+    assert MessageForwarder.handle_input() == {:error, "No message received!"}
   end
 
   test "handle empty input" do
-    assert MF.handle_input("") == {:error, "Input is empty. No message received!"}
+    assert MessageForwarder.handle_input("") == {:error, "Input is empty. No message received!"}
   end
 
   test "handle input" do
-    assert MF.handle_input("<@U084BDT55>: asd") == {:ok, "U084BDT55", "asd"}
+    assert MessageForwarder.handle_input("<@U084BDT55>: Test message") == {:ok, "U084BDT55", "Test message"}
   end
 end

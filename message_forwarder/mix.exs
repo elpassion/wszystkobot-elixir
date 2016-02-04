@@ -14,7 +14,11 @@ defmodule MF.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [applications: [
+      :logger,
+      :yaml_elixir
+      ]
+    ]
   end
 
   # Dependencies can be Hex packages:
@@ -27,6 +31,10 @@ defmodule MF.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:mix_test_watch, "~> 0.2", only: :dev}]
+    [
+      { :mix_test_watch, "~> 0.2", only: :dev },
+      { :yaml_elixir, "~> 1.0.0" },
+      { :yamerl, github: "yakaz/yamerl" }
+    ]
   end
 end
