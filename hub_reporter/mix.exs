@@ -14,7 +14,7 @@ defmodule HubReporter.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpoison]]
+    [applications: [:logger, :httpoison, :tzdata]]
   end
 
   # Dependencies can be Hex packages:
@@ -29,7 +29,8 @@ defmodule HubReporter.Mixfile do
   defp deps do
     [
       {:exjsx, "~> 3.1"},
-      {:httpoison, "~> 0.8.0"}
+      {:httpoison, "~> 0.8.0"},
+      {:timex, "~> 1.0.0"}
     ]
   end
 end
