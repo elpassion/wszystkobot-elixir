@@ -1,5 +1,4 @@
 defmodule CALC do
-	import Code
 	import List
 
 	@servicable_msg_regexp ~r/^How much is ([0-9+-\/* ]*)/i
@@ -8,9 +7,13 @@ defmodule CALC do
 		unless servicable(msg) do
 			{ :ignored }
 		else
-			equation = extract_equation(msg)
-			result = calculate(equation)
-			{ :ok,  result }
+			try do
+				equation = extract_equation(msg)
+				result = calculate(equation)
+				{ :ok,  result }
+			rescue
+				_ -> { :ok, "Naah, something is wrong with your equation, man."}
+			end			
 		end
 	end
 
@@ -23,15 +26,7 @@ defmodule CALC do
 	end
 
 	defp calculate(equation) do
-		[ result ] = Expr.eval!(equation)
-		
-		#dough.. maybe there's a better way to convert float to int
-		result_int = round(result)
-		if result_int == result do
-			result_int
-		else
-			result
-		end
+		hd(Expr.eval!(equation))	
 	end
 
 end
