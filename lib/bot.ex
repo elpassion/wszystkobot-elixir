@@ -21,6 +21,8 @@ defmodule Bot do
       responses = List.insert_at(responses, -1, HubReporter.handle_message(message))
     end
 
+    responses = List.insert_at(responses, -1, CALC.interact(message.text))
+
     handle_responses(responses, message, slack)
 
     {:ok, state ++ [message.text]}
@@ -33,7 +35,7 @@ defmodule Bot do
 
     responses |> Enum.map(fn (response) ->
       if elem(response, 1) == :message do
-        send_message(elem(response, 2), message.channel, slack)
+        send_message("#{elem(response, 2)}", message.channel, slack)
       end
     end)
   end
