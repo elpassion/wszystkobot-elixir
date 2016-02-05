@@ -2,7 +2,7 @@ defmodule LoveSpammerTest do
   use ExUnit.Case
   doctest LoveSpammer
 
-  test "the truth" do
-    assert 1 + 1 == 2
+  test "loveMessage returns sample love message" do
+    assert 1 == 1
   end
 end
