@@ -22,7 +22,7 @@ defmodule Bot do
     responses = List.insert_at(responses, -1, call_hub(message))
     responses = List.insert_at(responses, -1, call_calc(message))
     responses = List.insert_at(responses, -1, call_love_spammer(message))
-    responses = List.insert_at(responses, -1, call_forwarder(message))
+    # responses = List.insert_at(responses, -1, call_forwarder(message))
 
     handle_responses(responses, message, slack)
 
@@ -46,6 +46,7 @@ defmodule Bot do
         if tuple_size(response) == 4 do
           receiver = elem(response, 3)
         end
+        IO.puts receiver
         send_message("#{elem(response, 2)}", receiver, slack)
       end
     end)
@@ -75,13 +76,14 @@ defmodule Bot do
     end
   end
 
-<<<<<<< HEAD
   defp call_love_spammer(message) do
     if LoveSpammer.can_handle_message(message) do
       LoveSpammer.handle_message(message)
     else
       {:ignored, :none, ""}
-=======
+    end
+  end
+
   defp initalize_forwarder do
     try do
       MessageForwarder.new
@@ -95,7 +97,6 @@ defmodule Bot do
       MessageForwarder.forward_message(message.text)
     rescue
       e -> {:error, :message, Exception.message(e)}
->>>>>>> a0d29b2ce9ff0056d7d49d3ba37542db9f4f272f
     end
   end
 end
