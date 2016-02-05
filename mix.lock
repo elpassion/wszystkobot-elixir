@@ -12,6 +12,7 @@
   "jsx": {:hex, :jsx, "2.4.0"},
   "mimerl": {:hex, :mimerl, "1.0.2"},
   "providers": {:hex, :providers, "1.4.1"},
+  "quantum": {:hex, :quantum, "1.6.1"},
   "relx": {:hex, :relx, "3.5.0"},
   "slack": {:hex, :slack, "0.4.1"},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"},

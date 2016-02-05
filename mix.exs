@@ -14,7 +14,7 @@ defmodule Bot.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [ applications: [:logger, :slack, :edeliver],
+    [ applications: [:logger, :slack, :edeliver, :quantum, :hub_reporter, :calc],
       mod: {Bot, []} ]
   end
 
@@ -30,6 +30,7 @@ defmodule Bot.Mixfile do
   defp deps do
     [ {:slack, "~> 0.4.1"},
       {:websocket_client, git: "https://github.com/jeremyong/websocket_client"},
+      {:quantum, ">= 1.6.1"},
       {:edeliver, ">= 1.1.1"},
       {:calc, ">= 0.0.1", path: "calc"},
       {:hub_reporter, ">= 0.0.1", path: "hub_reporter"}
