@@ -28,7 +28,7 @@ defmodule HubReporter.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:exjsx, "~> 3.2"},
+      {:exjsx, "~> 3.1"},
       {:httpoison, "~> 0.8.0"}
     ]
   end
