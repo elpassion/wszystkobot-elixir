@@ -20,6 +20,7 @@ defmodule Bot do
 
     responses = List.insert_at(responses, -1, call_hub(message))
     responses = List.insert_at(responses, -1, call_calc(message))
+    responses = List.insert_at(responses, -1, call_love_spammer(message))
 
     handle_responses(responses, message, slack)
 
@@ -65,6 +66,14 @@ defmodule Bot do
       end
     rescue
       e -> {:error, :message, Exception.message(e)}
+    end
+  end
+
+  defp call_love_spammer(message) do
+    if LoveSpammer.can_handle_message(message) do
+      LoveSpammer.handle_message(message)
+    else
+      {:ignored, :none, ""}
     end
   end
 end

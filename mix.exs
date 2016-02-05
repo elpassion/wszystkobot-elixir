@@ -14,7 +14,7 @@ defmodule Bot.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [ applications: [:logger, :slack, :edeliver, :quantum, :hub_reporter, :calc],
+    [ applications: [:logger, :slack, :edeliver, :quantum, :hub_reporter, :calc, :love_spammer],
       mod: {Bot, []} ]
   end
 
@@ -33,7 +33,8 @@ defmodule Bot.Mixfile do
       {:quantum, ">= 1.6.1"},
       {:edeliver, ">= 1.1.1"},
       {:calc, ">= 0.0.1", path: "calc"},
-      {:hub_reporter, ">= 0.0.1", path: "hub_reporter"}
+      {:hub_reporter, ">= 0.0.1", path: "hub_reporter"},
+      {:love_spammer, ">= 0.0.1", path: "love_spammer"}
     ]
   end
 end

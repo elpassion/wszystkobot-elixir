@@ -1,5 +1,13 @@
 defmodule LoveSpammer do
 
+  def can_handle_message(message) do
+    message == ":*" or message == ":kiss:"
+  end
+
+  def handle_message(message) do
+    {:ok, :message, love_message}
+  end
+
   def love_message do
     :random.seed(:os.timestamp)
 
