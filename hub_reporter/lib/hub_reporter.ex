@@ -6,7 +6,7 @@ defmodule HubReporter do
   end
 
   def handle_message(message) do
-    case message.text do
+    resp = case message.text do
       "hub token" <> tail ->
         TokenHandler.handle(String.split(tail), message.user)
       "hub fetch" <> tail ->
@@ -18,5 +18,6 @@ defmodule HubReporter do
       _ ->
         "There's no function #{message.text}"
     end
+    {:ok, :message, resp}
   end
 end

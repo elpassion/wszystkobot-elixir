@@ -6,6 +6,9 @@ defmodule Bot.Help do
 
         hub:
           #{HubReporter.Help.call}
+
+        calc:
+          #{CALC.Help.call}
     """
   end
 end

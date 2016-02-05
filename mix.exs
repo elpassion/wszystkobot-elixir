@@ -31,6 +31,7 @@ defmodule Bot.Mixfile do
     [ {:slack, "~> 0.4.1"},
       {:websocket_client, git: "https://github.com/jeremyong/websocket_client"},
       {:edeliver, ">= 1.1.1"},
+      {:calc, ">= 0.0.1", path: "calc"},
       {:hub_reporter, ">= 0.0.1", path: "hub_reporter"}
     ]
   end

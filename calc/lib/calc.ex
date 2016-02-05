@@ -5,15 +5,15 @@ defmodule CALC do
 
 	def interact (msg) do
 		unless servicable(msg) do
-			{ :ignored }
+			{ :ignored, :none, "" }
 		else
 			try do
 				equation = extract_equation(msg)
 				result = calculate(equation)
-				{ :ok,  result }
+				{ :ok, :message, result }
 			rescue
-				_ -> { :ok, "Naah, something is wrong with your equation, man."}
-			end			
+				_ -> { :ok, :message, "Naah, something is wrong with your equation, man."}
+			end
 		end
 	end
 
@@ -26,7 +26,7 @@ defmodule CALC do
 	end
 
 	defp calculate(equation) do
-		hd(Expr.eval!(equation))	
+		hd(Expr.eval!(equation))
 	end
 
 end

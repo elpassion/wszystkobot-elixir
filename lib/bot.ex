@@ -15,17 +15,12 @@ defmodule Bot do
   end
 
   def handle_message(message = %{type: "message"}, slack, state) do
-    # TODO: make it better
-    somethingDone = false
+    responses = []
 
-    if HubReporter.can_handle_message(message) do
-      send_message(HubReporter.handle_message(message), message.channel, slack)
-      somethingDone = true
-    end
+    responses = List.insert_at(responses, -1, call_hub(message))
+    responses = List.insert_at(responses, -1, call_calc(message))
 
-    unless somethingDone do
-      infoAboutHelp(message.channel, slack)
-    end
+    handle_responses(responses, message, slack)
 
     {:ok, state ++ [message.text]}
   end
@@ -34,7 +29,41 @@ defmodule Bot do
     {:ok, state}
   end
 
-  def infoAboutHelp(to, slack) do
+  # private
+
+  defp handle_responses(responses, message, slack) do
+    unless List.keyfind(responses, :ok, 0) || List.keyfind(responses, :error, 0)do
+      infoAboutHelp(message.channel, slack)
+    end
+
+    responses |> Enum.map(fn (response) ->
+      if elem(response, 1) == :message do
+        send_message("#{elem(response, 2)}", message.channel, slack)
+      end
+    end)
+  end
+
+  defp infoAboutHelp(to, slack) do
     send_message("unknown command, type `help` to see awailable options", to, slack)
+  end
+
+  defp call_calc(message) do
+    try do
+      CALC.interact(message.text)
+    rescue
+      e -> {:error, :message, Exception.message(e)}
+    end
+  end
+
+  defp call_hub(message) do
+    try do
+      if HubReporter.can_handle_message(message) do
+        HubReporter.handle_message(message)
+      else
+        {:ignored, :none, ""}
+      end
+    rescue
+      e -> {:error, :message, Exception.message(e)}
+    end
   end
 end
