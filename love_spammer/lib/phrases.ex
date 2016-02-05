@@ -3,6 +3,8 @@ defmodule Phrases do
   @def_phrases_path Application.get_env(:love_spammer, :phrases_path, to_string(:code.priv_dir(:love_spammer)) <> "/phrases/")
   @def_extension    Application.get_env(:love_spammer, :extension, ".txt")
 
+  def random_phrase(type), do: get_phrases(type) |> Enum.random
+
   def get_phrases(type) do
     case get_file(type) do
       {:error, error} -> error
