@@ -32,11 +32,11 @@ defmodule TokenHandler do
   end
 
   def clean do
-    File.write(".token", "")
+    File.write(token_file_name, "")
   end
 
   def read_file do
-    case File.read(".token") do
+    case File.read(token_file_name) do
       {:ok, x} ->
         decode(x)
       _ ->
@@ -56,10 +56,14 @@ defmodule TokenHandler do
   defp write_file(content) do
     case JSX.encode content do
       {:ok, json} ->
-        File.write(".token", json)
+        File.write(token_file_name, json)
         "Token added."
       _ ->
         "Internal server error 500 ;("
     end
+  end
+
+  defp token_file_name do
+    Application.get_env(:hub_reporter, :token_file_name)
   end
 end

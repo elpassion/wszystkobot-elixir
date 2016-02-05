@@ -6,6 +6,10 @@ defmodule HubReporterTest do
   use ExUnit.Case
   doctest HubReporter
 
+  setup_all do
+    Application.put_env(:hub_reporter, :token_file_name, ".token_test")
+  end
+
   setup do
     TokenHandler.clean()
     :ok

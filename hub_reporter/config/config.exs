@@ -10,7 +10,7 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :hub_reporter, key: :value
+    config :hub_reporter, token_file_name: ".token"
 #
 # And access this configuration in your application as:
 #
