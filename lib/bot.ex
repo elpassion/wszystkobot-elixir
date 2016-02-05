@@ -15,19 +15,27 @@ defmodule Bot do
   end
 
   def handle_message(message = %{type: "message"}, slack, state) do
-    # TODO: make it better
-    somethingDone = false
+    responses = []
 
     if HubReporter.can_handle_message(message) do
-      send_message(HubReporter.handle_message(message), message.channel, slack)
-      somethingDone = true
+      responses = List.insert_at(responses, -1, HubReporter.handle_message(message))
     end
 
-    unless somethingDone do
+    handle_responses(responses, message, slack)
+
+    {:ok, state ++ [message.text]}
+  end
+
+  def handle_responses(responses, message, slack) do
+    unless List.keyfind(responses, :ok, 0) do
       infoAboutHelp(message.channel, slack)
     end
 
-    {:ok, state ++ [message.text]}
+    responses |> Enum.map(fn (response) ->
+      if elem(response, 1) == :message do
+        send_message(elem(response, 2), message.channel, slack)
+      end
+    end)
   end
 
   def handle_message(_message, _slack, state) do
