@@ -19,7 +19,7 @@ defmodule MessageForwarder do
 
   defp handle_input(input) do
     [matched_string, user_name] = Regex.run(~r/^<@([A-Z]\w+)>:/, input)
-    case user_name do
+    case matched_string do
       nil ->
         {:ignored, :none, ""}
       _ ->

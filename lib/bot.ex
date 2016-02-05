@@ -7,6 +7,7 @@ defmodule Bot do
 
   def handle_connect(slack, state) do
     Agent.start_link(fn -> slack end, name: Bot)
+    initalize_forwarder()
     {:ok, state}
   end
 
@@ -20,6 +21,7 @@ defmodule Bot do
 
     responses = List.insert_at(responses, -1, call_hub(message))
     responses = List.insert_at(responses, -1, call_calc(message))
+    responses = List.insert_at(responses, -1, call_forwarder(message))
 
     handle_responses(responses, message, slack)
 
@@ -39,7 +41,11 @@ defmodule Bot do
 
     responses |> Enum.map(fn (response) ->
       if elem(response, 1) == :message do
-        send_message("#{elem(response, 2)}", message.channel, slack)
+        receiver = message.channel
+        if tuple_size(response) == 4 do
+          receiver = elem(response, 3)
+        end
+        send_message("#{elem(response, 2)}", receiver, slack)
       end
     end)
   end
@@ -63,6 +69,22 @@ defmodule Bot do
       else
         {:ignored, :none, ""}
       end
+    rescue
+      e -> {:error, :message, Exception.message(e)}
+    end
+  end
+
+  defp initalize_forwarder do
+    try do
+      MessageForwarder.new
+    rescue
+      e -> IO.inspect(e)
+    end
+  end
+
+  defp call_forwarder(message) do
+    try do
+      MessageForwarder.forward_message(message.text)
     rescue
       e -> {:error, :message, Exception.message(e)}
     end
