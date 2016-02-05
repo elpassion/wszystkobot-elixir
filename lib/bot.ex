@@ -6,6 +6,7 @@ defmodule Bot do
   end
 
   def handle_connect(slack, state) do
+    Agent.start_link(fn -> slack end, name: Bot)
     {:ok, state}
   end
 

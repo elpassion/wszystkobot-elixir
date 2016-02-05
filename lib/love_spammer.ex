@@ -1,5 +1,5 @@
 defmodule Bot.LoveSpammer do
   def call do
-    IO.puts "Bot.LoveSpammer.call"
+    # Agent.get(Bot, fn (slack) -> IO.inspect(slack) end)
   end
 end
