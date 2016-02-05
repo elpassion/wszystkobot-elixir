@@ -44,7 +44,7 @@ defmodule Bot do
       if elem(response, 1) == :message do
         receiver = message.channel
         if tuple_size(response) == 4 do
-          receiver = elem(response, 3)
+          receiver = slack.users[elem(response, 3)]
         end
         IO.puts receiver
         send_message("#{elem(response, 2)}", receiver, slack)
@@ -77,7 +77,7 @@ defmodule Bot do
   end
 
   defp call_love_spammer(message) do
-    if LoveSpammer.can_handle_message(message) do
+    if LoveSpammer.can_handle_message(message.text) do
       LoveSpammer.handle_message(message)
     else
       {:ignored, :none, ""}
