@@ -8,7 +8,7 @@ defmodule Bot.Help do
           #{HubReporter.Help.call}
 
         calc:
-          #{CALC.Help.call}
+          #{Calc.Help.call}
     """
   end
 end

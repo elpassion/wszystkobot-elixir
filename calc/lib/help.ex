@@ -1,4 +1,4 @@
-defmodule CALC.Help do
+defmodule Calc.Help do
   def call do
     ~s"""
       How much is OP - returns the result of a mathematical operation

@@ -58,7 +58,7 @@ defmodule Bot do
 
   defp call_calc(message) do
     try do
-      CALC.interact(message.text)
+      Calc.interact(message.text)
     rescue
       e -> {:error, :message, Exception.message(e)}
     end
