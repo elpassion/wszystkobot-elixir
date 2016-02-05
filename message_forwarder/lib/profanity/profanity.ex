@@ -1,9 +1,13 @@
 defmodule MessageForwarder.Profanity do
-  @profanity_list_file File.cwd! |> Path.join("config/profanity-list.yml")
+  @profane_list_file File.cwd! |> Path.join("config/profanity-list.yml")
   @replace_char "*"
 
-  def get_profane_list() do
-    YamlElixir.read_from_file(@profanity_list_file)
+  def new do
+    Agent.start_link(fn -> YamlElixir.read_from_file(@profane_list_file) end, name: __MODULE__)
+  end
+
+  defp get_profane_list do
+    Agent.get(__MODULE__, fn(word) -> word end)
   end
 
   def censor_profane(text) do

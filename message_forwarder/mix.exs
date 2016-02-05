@@ -1,4 +1,4 @@
-defmodule MF.Mixfile do
+defmodule MessageForwarder.Mixfile do
   use Mix.Project
 
   def project do
