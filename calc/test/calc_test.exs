@@ -24,8 +24,7 @@ defmodule CALCTest do
     assert { :ok, "Naah, something is wrong with your equation, man." } = CALC.interact("how much is 3/0")
   end
 
-  @tag :skip
   test "performs a little more complex expressions" do
-    assert { :ok, 1.38 } = CALC.interact("how much is ( 102 * 19% ) % 6")
+    assert { :ok, 2.5 } = CALC.interact("how much is (9 % 6) * 0.5 + 1")
   end
 end

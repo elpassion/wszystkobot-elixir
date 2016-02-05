@@ -1,7 +1,7 @@
 defmodule CALC do
 	import List
 
-	@servicable_msg_regexp ~r/^How much is ([0-9+-\/* ]*)/i
+	@servicable_msg_regexp ~r/^How much is ([0-9+-\/*%\(\) ]*)/i
 
 	def interact (msg) do
 		unless servicable(msg) do

@@ -27,6 +27,6 @@ defmodule CALC.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   def deps do
-    [{:expr, "~> 0.1.0"}]
+    [{:expr, git: "https://github.com/elpassion/expr.git"}]
   end
 end
