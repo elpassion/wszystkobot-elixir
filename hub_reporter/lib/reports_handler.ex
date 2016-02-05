@@ -14,6 +14,16 @@ defmodule ReportsHandler do
     HubApi.send_report(token, time_report)
   end
 
+  def handle_status(user) do
+    token = TokenHandler.token(user)
+    projects = HubApi.fetch_projects(token)
+    latest = HubApi.fetch_latest_activities(token)
+    project_name = Formatter.get_project_by_id(latest_project_id(latest), projects)["name"]
+    date = date_string(Date.universal)
+
+    "Your report status might be 8 hours for #{project_name} at #{date} ready to be pushed."
+  end
+
   def create_report(message, projects, latest, date \\ Date.universal) do
     %TimeReport{
       performed_at: date_string(date),

@@ -13,10 +13,10 @@ defmodule HubApi do
   end
 
   def send_report(token, time_report, fetcher \\ HTTPoison) do
-    IO.puts encode(params(time_report))
     case fetcher.post("https://hub.elpassion.com/api/v1/activities", encode(params(time_report)), headers(token)) do
       {:ok, response} ->
-        response
+        body = decode(response.body)
+        "Time report pushed for #{body["performed_at"]}"
       _ ->
         "Sending report failed"
     end

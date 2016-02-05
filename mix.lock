@@ -1,5 +1,6 @@
 %{"bbmustache": {:hex, :bbmustache, "1.0.3"},
   "certifi": {:hex, :certifi, "0.3.0"},
+  "combine": {:hex, :combine, "0.7.0"},
   "edeliver": {:hex, :edeliver, "1.1.4"},
   "erlware_commons": {:hex, :erlware_commons, "0.15.0"},
   "exjsx": {:hex, :exjsx, "3.1.0"},
@@ -16,4 +17,6 @@
   "relx": {:hex, :relx, "3.5.0"},
   "slack": {:hex, :slack, "0.4.1"},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"},
+  "timex": {:hex, :timex, "1.0.0"},
+  "tzdata": {:hex, :tzdata, "0.5.6"},
   "websocket_client": {:git, "https://github.com/jeremyong/websocket_client", "f6892c8b55004008ce2d52be7d98b156f3e34569", []}}

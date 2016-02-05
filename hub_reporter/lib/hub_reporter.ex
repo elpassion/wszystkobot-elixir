@@ -14,7 +14,7 @@ defmodule HubReporter do
       "hub push" <> tail ->
         ReportsHandler.handle_sending_report(tail, message.user)
       "hub status" <> tail ->
-        "hub status"
+        ReportsHandler.handle_status(message.user)
       _ ->
         "There's no function #{message.text}"
     end
