@@ -15,8 +15,8 @@ defmodule Bot do
     message_to_send = "Received #{length(state)} messages so far!"
     send_message(message_to_send, message.channel, slack)
 
-    if HubReporter.canHandleMessage(message.text) do
-      send_message(HubReporter.handleMessage(message.text), message.channel, slack)
+    if HubReporter.can_handle_message(message) do
+      send_message(HubReporter.handle_message(message), message.channel, slack)
     end
 
     {:ok, state ++ [message.text]}

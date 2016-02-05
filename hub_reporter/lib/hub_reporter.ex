@@ -1,27 +1,18 @@
 defmodule HubReporter do
 
   def can_handle_message(message) do
-    [prefix | _] = String.split(message)
+    [prefix | _] = String.split(message.text)
     prefix == "hub"
   end
 
-  def handle_message("hub " <> message) do
-    execute(String.split(message))
-  end
-
   def handle_message(message) do
-    message
-  end
-
-  def execute([ "token" | components]) do
-    TokenHandler.handle(components)
-  end
-
-  def execute([ "latest" | components]) do
-    ReportsHandler.handle(components)
-  end
-
-  def execute(components) do
-    "There's no function #{hd(components)}"
+    case message.text do
+      "hub token" <> tail ->
+        TokenHandler.handle(String.split(tail), message.user)
+      "hub latest" <> tail ->
+        ReportsHandler.handle(String.split(tail), message.user)
+      _ ->
+        "There's no function #{message.text}"
+    end
   end
 end

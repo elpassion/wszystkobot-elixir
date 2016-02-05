@@ -1,15 +1,15 @@
 defmodule HubApi do
 
-  def fetch_latest_activities(fetcher \\ HTTPoison) do
-    get("activities/latest", fetcher)
+  def fetch_latest_activities(token, fetcher \\ HTTPoison) do
+    get("activities/latest", fetcher, token)
   end
 
-  def fetch_projects(fetcher \\ HTTPoison) do
-    get("/projects", fetcher)
+  def fetch_projects(token, fetcher \\ HTTPoison) do
+    get("/projects", fetcher, token)
   end
 
-  defp get(suffix, fetcher) do
-    case fetcher.get("https://hub.elpassion.com/api/v1/#{suffix}", headers) do
+  defp get(suffix, fetcher, token) do
+    case fetcher.get("https://hub.elpassion.com/api/v1/#{suffix}", headers(token)) do
       {:ok, response} ->
         decode(response.body)
       _ ->
@@ -26,8 +26,8 @@ defmodule HubApi do
     end
   end
 
-  defp headers do
-    [{ "X-Access-Token", TokenHandler.token() }]
+  defp headers(token) do
+    [{ "X-Access-Token", token }]
   end
 
 end
