@@ -1,1 +1,1 @@
-%{"expr": {:hex, :expr, "0.1.0"}}
+%{"expr": {:git, "https://github.com/elpassion/expr.git", "2aae06995b0eec5654630b2063aef74dcf79e458", []}}
