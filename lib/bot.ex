@@ -17,19 +17,22 @@ defmodule Bot do
   def handle_message(message = %{type: "message"}, slack, state) do
     responses = []
 
-    if HubReporter.can_handle_message(message) do
-      responses = List.insert_at(responses, -1, HubReporter.handle_message(message))
-    end
-
-    responses = List.insert_at(responses, -1, CALC.interact(message.text))
+    responses = List.insert_at(responses, -1, call_hub(message))
+    responses = List.insert_at(responses, -1, call_calc(message))
 
     handle_responses(responses, message, slack)
 
     {:ok, state ++ [message.text]}
   end
 
-  def handle_responses(responses, message, slack) do
-    unless List.keyfind(responses, :ok, 0) do
+  def handle_message(_message, _slack, state) do
+    {:ok, state}
+  end
+
+  # private
+
+  defp handle_responses(responses, message, slack) do
+    unless List.keyfind(responses, :ok, 0) || List.keyfind(responses, :error, 0)do
       infoAboutHelp(message.channel, slack)
     end
 
@@ -40,11 +43,27 @@ defmodule Bot do
     end)
   end
 
-  def handle_message(_message, _slack, state) do
-    {:ok, state}
+  defp infoAboutHelp(to, slack) do
+    send_message("unknown command, type `help` to see awailable options", to, slack)
   end
 
-  def infoAboutHelp(to, slack) do
-    send_message("unknown command, type `help` to see awailable options", to, slack)
+  defp call_calc(message) do
+    try do
+      CALC.interact(message.text)
+    rescue
+      e -> {:error, :message, Exception.message(e)}
+    end
+  end
+
+  defp call_hub(message) do
+    try do
+      if HubReporter.can_handle_message(message) do
+        HubReporter.handle_message(message)
+      else
+        {:ignored, :none, ""}
+      end
+    rescue
+      e -> {:error, :message, Exception.message(e)}
+    end
   end
 end
