@@ -1,32 +1,33 @@
 defmodule Calc do
+	@moduledoc false
+
 	import List
 
-	@servicable_msg_regexp ~r/^How much is ([0-9+-\/*%\(\) ]*)/i
+  @servicable_msg_regexp ~r/^How much is ([0-9+-\/*%\(\) ]*)/i
+  @fail_msg "Naah, something is wrong with your equation, man."
 
-	def interact (msg) do
-		unless servicable(msg) do
-			{ :ignored, :none, "" }
-		else
-			try do
-				equation = extract_equation(msg)
-				result = calculate(equation)
-				{ :ok, :message, result }
-			rescue
-				_ -> { :ok, :message, "Naah, something is wrong with your equation, man."}
-			end
-		end
-	end
+  def interact(msg) do
+    if msg |> can_handle_message? do
+        try do
+          { :ok, :message, msg |> extract_equation |> calculate }
+        rescue
+          _ -> { :ok, :message, @fail_msg}
+        end
+    else 
+        { :ignored, :none, "" }
+    end
+  end
 
-	defp servicable (msg) do
-		Regex.match?(@servicable_msg_regexp, msg)
+	def can_handle_message?(msg) do
+		@servicable_msg_regexp |> Regex.match?(msg)
 	end
 
 	defp extract_equation(msg) do
-		last(Regex.run(@servicable_msg_regexp, msg))
+		@servicable_msg_regexp |> Regex.run(msg) |> last
 	end
 
 	defp calculate(equation) do
-		hd(Expr.eval!(equation))
+		equation |> Expr.eval! |> hd
 	end
 
 end
