@@ -1,23 +1,32 @@
 defmodule HubReporter do
+  @moduledoc false
 
-  def can_handle_message(message) do
-    [prefix | _] = String.split(message.text)
-    prefix == "hub"
+  use Slacker
+  use Slacker.Matcher
+
+  match ~r/^hub token (.*)/i, :store_token
+  match ~r/^hub token\z/i, :show_token
+  match ~r/^hub fetch\z/i, :fetch
+  match ~r/^hub status\z/i, :status
+  match ~r/^hub push ?(.*)/i, :push
+
+  def show_token(reporter, message) do
+    say reporter, message["channel"], TokenHandler.handle(message["user"])
   end
 
-  def handle_message(message) do
-    resp = case message.text do
-      "hub token" <> tail ->
-        TokenHandler.handle(String.split(tail), message.user)
-      "hub fetch" <> tail ->
-        ReportsHandler.handle_latest(String.split(tail), message.user)
-      "hub push" <> tail ->
-        ReportsHandler.handle_sending_report(tail, message.user)
-      "hub status" <> tail ->
-        ReportsHandler.handle_status(message.user)
-      _ ->
-        "There's no function #{message.text}"
-    end
-    {:ok, :message, resp}
+  def store_token(reporter, message, token) do
+    say reporter, message["channel"], TokenHandler.handle(token, message["user"])
+  end
+
+  def fetch(reporter, message) do
+    say reporter, message["channel"], ReportsHandler.handle_latest(message["user"])
+  end
+
+  def status(reporter, message) do
+    say reporter, message["channel"], ReportsHandler.handle_status(message["user"])
+  end
+
+  def push(reporter, message, report) do
+    say reporter, message["channel"], ReportsHandler.handle_sending_report(report, message["user"])
   end
 end

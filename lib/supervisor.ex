@@ -8,7 +8,8 @@ defmodule Bot.Supervisor do
   def init(:ok) do
     token = System.get_env("SLACK_TOKEN")
     children = [
-      worker(Calc, [token])
+      worker(Calc, [token]),
+      worker(HubReporter, [token])
     ]
 
     supervise(children, strategy: :one_for_one)

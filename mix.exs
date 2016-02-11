@@ -14,7 +14,8 @@ defmodule Bot.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [ applications: [:logger, :slacker, :edeliver, :quantum, :hub_reporter, :calc, :message_forwarder, :love_spammer],
+    # [ applications: [:logger, :slacker, :edeliver, :quantum, :hub_reporter, :calc, :message_forwarder, :love_spammer],
+    [ applications: [:logger, :slacker, :calc, :hub_reporter],
       mod: {Bot, []} ]
   end
 
@@ -22,11 +23,7 @@ defmodule Bot.Mixfile do
   defp deps do
     [ {:websocket_client, github: "jeremyong/websocket_client"},
       {:slacker,  "~> 0.0.1"},
-      {:quantum, ">= 1.6.1"},
-      {:edeliver, ">= 1.1.1"},
       {:calc, ">= 0.0.1", path: "calc"},
-      {:message_forwarder, ">= 0.0.1", path: "message_forwarder"},
-      {:hub_reporter, ">= 0.0.1", path: "hub_reporter"},
-      {:love_spammer, ">= 0.0.1", path: "love_spammer"} ]
+      {:hub_reporter, ">= 0.0.1", path: "hub_reporter"} ]
   end
 end

@@ -1,17 +1,17 @@
 defmodule TokenHandler do
 
-  def handle(components, user) when length(components) == 1 do
+  @spec handle(String, String) :: String
+  def handle(token, user) do
     current = read_file
-    token = List.first(components)
     write_file(Map.put(current, user, token))
-  end
-
-  def handle(_, user) when user != "" do
-    handleShowToken(token(user))
   end
 
   def handle(_, _) do
     handleShowToken("")
+  end
+
+  def handle(user) when user != "" do
+    handleShowToken(token(user))
   end
 
   def handleShowToken(nil) do
