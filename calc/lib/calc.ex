@@ -1,25 +1,24 @@
 defmodule Calc do
   @moduledoc false
 
+  use Slacker
+  use Slacker.Matcher
+
   import List
 
   @servicable_msg_regexp ~r/^How much is ([0-9+-\/*%\(\) ]*)/i
-  @fail_msg "Naah, something is wrong with your equation, man."
 
-  def interact(msg) do
-    if msg |> can_handle_message? do
-        try do
-          { :ok, :message, msg |> extract_equation |> calculate }
-        rescue
-          _ -> { :ok, :message, @fail_msg}
-        end
-    else 
-        { :ignored, :none, "" }
-    end
+  match @servicable_msg_regexp, :interact
+
+  def interact(calc, msg, level) do
+    say calc, msg["channel"], proceed(msg["text"])
   end
 
-  def can_handle_message?(msg) do
-    @servicable_msg_regexp |> Regex.match?(msg)
+  def proceed(msg) do
+    msg
+    |> extract_equation
+    |> calculate
+    |> Kernel.to_string
   end
 
   defp extract_equation(msg) do
@@ -29,5 +28,4 @@ defmodule Calc do
   defp calculate(equation) do
     equation |> Expr.eval! |> hd
   end
-
 end

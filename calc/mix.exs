@@ -27,6 +27,8 @@ defmodule Calc.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   def deps do
-    [{:expr, git: "https://github.com/elpassion/expr.git"}]
+    [ {:expr, git: "https://github.com/elpassion/expr.git"},
+      {:websocket_client, github: "jeremyong/websocket_client"},
+      {:slacker,  "~> 0.0.1"} ]
   end
 end
