@@ -6,7 +6,7 @@ defmodule Bot.Supervisor do
   end
 
   def init(:ok) do
-    token = System.get_env("SLACK_TOKEN")
+    token = Application.get_env(:bot, :slack_token)
     children = [
       worker(Calc, [token]),
       worker(HubReporter, [token])
