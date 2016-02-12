@@ -28,7 +28,7 @@ defmodule HubReporter.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [ {:expr, git: "https://github.com/elpassion/expr.git"},
-      {:websocket_client, github: "jeremyong/websocket_client"},
+      {:websocket_client, git: "https://github.com/jeremyong/websocket_client.git"},
       {:slacker,  "~> 0.0.1"},
       {:exjsx, "~> 3.1"},
       {:httpoison, "~> 0.8.0"},
