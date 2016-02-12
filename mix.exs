@@ -3,7 +3,7 @@ defmodule Bot.Mixfile do
 
   def project do
     [app: :bot,
-     version: "0.0.2",
+     version: "0.0.3",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -21,7 +21,7 @@ defmodule Bot.Mixfile do
 
   # Type "mix help deps" for more examples and options
   defp deps do
-    [ {:websocket_client, github: "jeremyong/websocket_client"},
+    [ {:websocket_client, git: "https://github.com/jeremyong/websocket_client.git"},
       {:slacker,  "~> 0.0.1"},
       {:edeliver, "~> 1.0"},
       {:exrm, "~> 0.19"},
