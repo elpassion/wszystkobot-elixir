@@ -1,3 +1,5 @@
+require :http_uri
+
 defmodule Bot do
   use Application
 
