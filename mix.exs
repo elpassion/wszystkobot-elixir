@@ -23,7 +23,7 @@ defmodule Bot.Mixfile do
   defp deps do
     [ {:websocket_client, git: "https://github.com/jeremyong/websocket_client.git"},
       {:slacker,  "~> 0.0.1"},
-      {:edeliver, "~> 1.0"},
+      {:edeliver, git: "https://github.com/boldpoker/edeliver.git"},
       {:exrm, "~> 0.19"},
       {:conform, "~> 0.17", override: true},
       {:conform_exrm, "~> 0.2"},

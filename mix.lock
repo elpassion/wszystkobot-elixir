@@ -3,7 +3,7 @@
   "combine": {:hex, :combine, "0.7.0"},
   "conform": {:hex, :conform, "0.17.0"},
   "conform_exrm": {:hex, :conform_exrm, "0.2.0"},
-  "edeliver": {:hex, :edeliver, "1.1.4"},
+  "edeliver": {:git, "https://github.com/boldpoker/edeliver.git", "9e0f62c60f7311db30c4345bb361a91fbf61a7b9", []},
   "erlware_commons": {:hex, :erlware_commons, "0.15.0"},
   "exjsx": {:hex, :exjsx, "3.1.0"},
   "expr": {:git, "https://github.com/elpassion/expr.git", "2aae06995b0eec5654630b2063aef74dcf79e458", []},
