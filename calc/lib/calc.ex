@@ -6,7 +6,8 @@ defmodule Calc do
 
   import List
 
-  match ~r/help/i, :help
+  match ~r/^help/i, :help
+  match ~r/^calc help/i, :help
   match ~r/^How much is ([0-9+-\/*%\(\) ]*)/i, :interact
   match ~r/^calc ([0-9+-\/*%\(\) ]*)/i, :interact
 
@@ -36,7 +37,8 @@ defmodule Calc do
     ~s"""
       calc:
       	how much is OP - returns the result of a mathematical operation
-      	calc OP - returns the result of a mathematical operation
+      	calc OP        - returns the result of a mathematical operation
+      	calc help      - display this info
     """
   end
 end

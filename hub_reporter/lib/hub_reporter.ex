@@ -4,7 +4,8 @@ defmodule HubReporter do
   use Slacker
   use Slacker.Matcher
 
-  match ~r/help/i, :help
+  match ~r/^help/i, :help
+  match ~r/^hub help/i, :help
   match ~r/^hub token (.*)/i, :store_token
   match ~r/^hub token\z/i, :show_token
   match ~r/^hub fetch\z/i, :fetch
@@ -43,6 +44,7 @@ defmodule HubReporter do
     	hub fetch       - shows reports from last 7 days
     	hub status      - shows last report
     	hub push MSG    - creates new time report similar to last one with MSG
+    	hub help        - display this info
     """
   end
 end
