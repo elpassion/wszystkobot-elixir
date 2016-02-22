@@ -24,24 +24,24 @@ defmodule HubReporterTest do
   end
 
   test "return info about non-existing functions" do
-    assert HubReporter.handle_message(%Slack{text: "hub some_function some_text"}) == "There's no function hub some_function some_text"
+    assert HubReporter.handle_message(%Slack{text: "hub some_function some_text"}) == {:ok, :message, "There's no function hub some_function some_text"}
   end
 
   test "can send user token" do
-    assert HubReporter.handle_message(%Slack{text: "hub token sample_token_123"}) == "Token added."
+    assert HubReporter.handle_message(%Slack{text: "hub token sample_token_123"}) == {:ok, :message, "Token added."}
   end
 
   test "token does not exist" do
-    assert HubReporter.handle_message(%Slack{text: "hub token"}) == "There's no token assigned to your account."
+    assert HubReporter.handle_message(%Slack{text: "hub token"}) == {:ok, :message, "There's no token assigned to your account."}
   end
 
   test "token is assigned to one user" do
     HubReporter.handle_message(%Slack{text: "hub token asd", user: "user1"})
-    assert HubReporter.handle_message(%Slack{text: "hub token", user: "user2"}) == "There's no token assigned to your account."
+    assert HubReporter.handle_message(%Slack{text: "hub token", user: "user2"}) == {:ok, :message, "There's no token assigned to your account."}
   end
 
   test "return token when token was provided" do
     HubReporter.handle_message(%Slack{text: "hub token asd", user: "test"})
-    assert HubReporter.handle_message(%Slack{text: "hub token", user: "test"}) == "Your token is asd"
+    assert HubReporter.handle_message(%Slack{text: "hub token", user: "test"}) == {:ok, :message, "Your token is asd"}
   end
 end
