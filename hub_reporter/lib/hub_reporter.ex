@@ -11,7 +11,7 @@ defmodule HubReporter do
         TokenHandler.handle(String.split(tail), message.user)
       "hub fetch" <> tail ->
         ReportsHandler.handle_latest(String.split(tail), message.user)
-      "hub push" <> tail ->
+      "hub push " <> tail ->
         ReportsHandler.handle_sending_report(tail, message.user)
       "hub status" <> tail ->
         ReportsHandler.handle_status(message.user)
