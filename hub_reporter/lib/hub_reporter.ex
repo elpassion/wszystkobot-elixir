@@ -15,6 +15,8 @@ defmodule HubReporter do
         ReportsHandler.handle_sending_report(tail, message.user)
       "hub status" <> tail ->
         ReportsHandler.handle_status(message.user)
+      "hub projects" <> tail ->
+        ProjectsHandler.handle(String.split(tail), message.user)
       _ ->
         "There's no function #{message.text}"
     end
