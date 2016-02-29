@@ -1,7 +1,7 @@
 defmodule ReportsHandler do
   use Timex
 
-  def handle_latest([], user) do
+  def handle_latest(_, user) do
     token = TokenHandler.token(user)
     Formatter.format_activities(HubApi.fetch_latest_activities(token), HubApi.fetch_projects(token))
   end
