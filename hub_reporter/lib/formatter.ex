@@ -20,6 +20,13 @@ defmodule Formatter do
     |> Enum.join("\n")
   end
 
+  def format_aliases(user) do
+    aliases =for {key, value} <- AliasHandler.read_file(user) do
+      "#{key} - ID: #{value}"
+    end
+    aliases |> Enum.join("\n")
+  end
+
   def format_project(project) do
     "#{project["name"]}: #{project["id"]}"
   end

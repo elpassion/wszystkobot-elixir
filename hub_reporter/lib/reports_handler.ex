@@ -15,8 +15,8 @@ defmodule ReportsHandler do
         "Something went wrong"
       1 ->
         make_simplified_report(message, projects, latest, token)
-      3 ->
-        make_extended_report(message, projects, latest, token)
+      4 ->
+        make_extended_report(message, projects, latest, token, user)
     end
   end
 
@@ -30,13 +30,23 @@ defmodule ReportsHandler do
     "Your report status might be 8 hours for #{project_name} at #{date} ready to be pushed."
   end
 
-  def create_report(date \\ date_string(Date.universal), value \\ "8", comment, projects, latest) do
+  def create_report(date \\ date_string(Date.universal), value \\ "8", projects_alias_id \\ nil, comment, projects, latest) do
+    check_if_projects_alias_non_given(projects_alias_id, latest)
     %TimeReport{
       performed_at: date,
-      project_id: latest_project_id(latest),
+      project_id: projects_alias_id,
       value: value,
       comment: comment
     }
+  end
+
+  def check_if_projects_alias_non_given(projects_alias_id, latest) do
+    case projects_alias_id do
+      nil ->
+        latest_project_id(latest)
+      projects_alias_id ->
+        projects_alias_id
+    end
   end
 
   def latest_project_id(latest) do
@@ -70,6 +80,23 @@ defmodule ReportsHandler do
     end
   end
 
+  def get_projects_alias_from_message(message, user) do
+    given_alias = Enum.at(message, 2)
+    aliases = AliasHandler.read_file(user)
+
+    case Map.has_key?(aliases, given_alias) do
+      true ->
+        case Kernel.is_integer(Map.get(aliases, given_alias)) do
+          true ->
+            Map.get(aliases, given_alias)
+          false ->
+            nil
+        end
+      false ->
+        nil
+    end
+  end
+
   def get_comment_from_message(message) do
     case String.length(List.last(message)) > 10 do
       true ->
@@ -79,23 +106,32 @@ defmodule ReportsHandler do
     end
   end
 
-  def validate_errors(date, value, comment) do
-    validate_date(date, value, comment)
+  def validate_errors(date, value, comment, projects_alias_id) do
+    validate_date(date, value, comment, projects_alias_id)
   end
 
-  def validate_date(date, value, comment) do
+  def validate_date(date, value, comment, projects_alias_id) do
     case date do
       nil ->
         error = "Wrong date format. Should be: YYYY-MM-DD."
       _ ->
-        validate_value(value, comment)
+        validate_value(value, comment, projects_alias_id)
     end
   end
 
-  def validate_value(value, comment) do
+  def validate_value(value, comment, projects_alias_id) do
     case value do
       nil ->
         error = "Wrong value format. Should be between 1-24"
+      _ ->
+        validate_project_id(comment, projects_alias_id)
+    end
+  end
+
+  def validate_project_id(comment, projects_alias_id) do
+    case projects_alias_id do
+      nil ->
+        error = "Something went wrong with your alias. Check if exists by hub alias command"
       _ ->
         validate_comment(comment)
     end
@@ -113,17 +149,19 @@ defmodule ReportsHandler do
   def make_simplified_report(message, projects, latest, token) do
     comment = message
     time_report = create_report(comment, projects, latest)
+    "Succes simp"
     HubApi.send_report(token, time_report)
   end
 
-  def make_extended_report(message, projects, latest, token) do
+  def make_extended_report(message, projects, latest, token, user) do
     message = String.split(message, " | ")
     date = get_date_from_message(message)
     value = get_value_from_message(message)
+    projects_alias_id = get_projects_alias_from_message(message, user)
     comment = get_comment_from_message(message)
-    case validate_errors(date, value, comment) do
+    case validate_errors(date, value, comment, projects_alias_id) do
       true ->
-        time_report = create_report(date, value, comment, projects, latest)
+        time_report = create_report(date, value, projects_alias_id, comment, projects, latest)
         HubApi.send_report(token, time_report)
       error ->
         error
