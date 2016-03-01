@@ -2,7 +2,7 @@ defmodule AliasHandler do
 
   def handle(id, project_alias, user) do
     current = read_file(user)
-    write_file(Map.put(current, id, project_alias), user)
+    write_file(Map.put(current, project_alias, id), user)
   end
 
   def read_file(user) do

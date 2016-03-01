@@ -22,7 +22,7 @@ defmodule Formatter do
 
   def format_aliases(user) do
     aliases =for {key, value} <- AliasHandler.read_file(user) do
-      "#{value} - ID: #{key}"
+      "#{key} - ID: #{value}"
     end
     aliases |> Enum.join("\n")
   end
