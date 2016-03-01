@@ -12,7 +12,7 @@ defmodule HubReporter do
       "hub fetch" <> tail ->
         ReportsHandler.handle_latest(String.split(tail), message.user)
       "hub push" <> tail ->
-        ReportsHandler.handle_sending_report(String.strip(tail), message.user)
+        ReportsHandler.handle_sending_report(tail, message.user)
       "hub status" <> tail ->
         ReportsHandler.handle_status(message.user)
       "hub projects" <> tail ->

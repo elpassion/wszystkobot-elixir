@@ -63,9 +63,9 @@ defmodule ReportsHandler do
   end
 
   def get_date_from_message(message) do
-    case String.length(List.first(message)) do
+    case String.length(String.strip(List.first(message))) do
       10 ->
-        List.first(message)
+        String.strip(List.first(message))
       _ ->
         nil
     end
