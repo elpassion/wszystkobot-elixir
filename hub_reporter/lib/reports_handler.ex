@@ -149,7 +149,6 @@ defmodule ReportsHandler do
   def make_simplified_report(message, projects, latest, token) do
     comment = message
     time_report = create_report(comment, projects, latest)
-    "Succes simp"
     HubApi.send_report(token, time_report)
   end
 
