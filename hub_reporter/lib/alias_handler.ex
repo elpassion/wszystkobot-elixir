@@ -6,7 +6,7 @@ defmodule AliasHandler do
   end
 
   def read_file(user) do
-    case File.read("aliases/.#{user}-aliases") do
+    case File.read("hub_reporter/aliases/.#{user}-aliases") do
       {:ok, x} ->
         decode(x)
       _ ->
@@ -26,7 +26,7 @@ defmodule AliasHandler do
   defp write_file(content, user) do
     case JSX.encode content do
       {:ok, json} ->
-        File.write("aliases/.#{user}-aliases", json)
+        File.write("hub_reporter/aliases/.#{user}-aliases", json)
         "Alias added."
       _ ->
         "Internal server error 500 ;("
