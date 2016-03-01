@@ -6,7 +6,7 @@ defmodule ProjectsHandler do
       2 ->
         handle_message(message, token, user)
       _ ->
-        "Something went wrong"
+        handle_alias(user)
     end
   end
 
